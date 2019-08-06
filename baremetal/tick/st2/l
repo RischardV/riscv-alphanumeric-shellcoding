@@ -1,0 +1,16 @@
+#!/bin/bash
+set -euo pipefail
+
+CPU=$(getconf _NPROCESSORS_ONLN)
+STAGE2=$(find build/ -name "*.x" | wc -l)
+STEP=$((${STAGE2} / ${CPU}))
+
+echo "l: CPU:${CPU} Stages2:${STAGE2} STEP:${STEP}"
+for (( COUNTER=0; COUNTER<${STAGE2}; COUNTER+=${STEP} )); do
+    END=$((${COUNTER}+${STEP}))
+    END=$(($END<${STAGE2}?$END:${STAGE2}))
+    #echo ${COUNTER} ${END}
+    ./try ${COUNTER} ${END} &
+done
+
+wait

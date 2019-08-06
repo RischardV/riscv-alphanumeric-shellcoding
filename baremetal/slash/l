@@ -1,0 +1,5 @@
+#!/bin/bash
+CMD="qemu-system-riscv64 -nographic -machine sifive_u -device loader,file=shellcode.bin,addr=0x80000000"
+#CMD="qemu-system-riscv64 -gdb tcp::1235 -machine sifive_u -device loader,file=shellcode.bin,addr=0x80000000 -S"
+echo "$CMD"
+${CMD}
